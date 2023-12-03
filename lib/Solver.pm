@@ -4,6 +4,7 @@ use Moo;
 
 use MooX::Options protect_argv => 0;
 use Module::Runtime qw/ use_module /;
+use Path::Tiny;
 use namespace::clean -except => [
   qw/ _options_data _options_config /
 ];
@@ -24,6 +25,14 @@ option puzzle => (
   doc => 'Which puzzle to run the solver for',
 );
 
+option input => (
+  is => 'ro',
+  required => 1,
+  short => 'i',
+  format => 's',
+  doc => 'Input file',
+);
+
 has day_solver => (
   is => 'lazy',
   clearer => 1,
@@ -40,7 +49,9 @@ sub new_with_actions {
 
   my $self = $class->new_with_options(@_);
 
-  print $self->run( @ARGV ) . "\n";
+  my $file = path($self->input)->slurp_utf8;
+
+  print $self->run( $file ) . "\n";
 }
 
 sub run {
