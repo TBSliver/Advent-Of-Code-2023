@@ -27,7 +27,6 @@ option puzzle => (
 
 option input => (
   is => 'ro',
-  required => 1,
   short => 'i',
   format => 's',
   doc => 'Input file',
